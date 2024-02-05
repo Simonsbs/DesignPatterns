@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
+using Repository.Models.DTO;
 using Repository.Repositories;
 
 namespace Repository.Controllers {
@@ -8,36 +9,38 @@ namespace Repository.Controllers {
 	public class UserController(IConfiguration config, IUserRepository userRepo) : ControllerBase {
 		private readonly IConfiguration _config = config ?? throw new ArgumentNullException(nameof(config));
 		private readonly IUserRepository _userRepo = userRepo ?? throw new ArgumentNullException(nameof(userRepo));
-		
+
 		[HttpGet]
 		public IActionResult GetAll() {
-			var result = _userRepo.FindAll().ToList();
-			return Ok(result);
+			var users = _userRepo.FindAll();
+			var userDTOs = users.Select(u => (UserDTO)u).ToList();
+
+			return Ok(userDTOs);
 		}
 
 		[HttpGet("{id:int}")]
 		public IActionResult GetByID(int id) {
-			var result = _userRepo.FindByCondition(u => u.ID == id).FirstOrDefault();
-			return Ok(result);
+			var user = _userRepo.FindByCondition(u => u.ID == id).FirstOrDefault();
+			if (user == null) {
+				return NotFound();
+			}
+
+			UserDTO userDTO = (UserDTO)user;
+
+			return Ok(userDTO);
 		}
 
 		[HttpPost]
-		public IActionResult Create(User user) {
-			if (user == null) {
-				return BadRequest();
-			}
+		public IActionResult Create(CreateUserDTO user) {
+			var result = _userRepo.Create((User)user);
 
-			var result = _userRepo.Create(user);
+			var userDTO = (UserDTO)result;
 
-			return Created("user", result);
+			return Created("user", userDTO);
 		}
 
 		[HttpPut]
 		public IActionResult Update(User user) {
-			if (user == null) {
-				return BadRequest();
-			}
-
 			var exists = _userRepo.FindByCondition(u => u.ID == user.ID).Any();
 			if (!exists) {
 				return NotFound();

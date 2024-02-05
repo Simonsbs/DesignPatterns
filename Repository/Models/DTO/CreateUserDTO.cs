@@ -16,4 +16,14 @@ public class CreateUserDTO {
 	public string FullName {
 		get; set;
 	}
+
+	public static explicit operator User(CreateUserDTO user) {
+		return new User {
+			Username = user.Username,
+			Email = user.Email,
+			Password = user.Password,
+			DateOfBirth = user.DateOfBirth,
+			FullName = user.FullName
+		};
+	}
 }
