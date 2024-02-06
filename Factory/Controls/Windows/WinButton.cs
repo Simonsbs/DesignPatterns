@@ -1,5 +1,4 @@
 ﻿using Factory.Controls.Interfaces;
-using System; // Required for Console.WriteLine
 
 namespace Factory.Controls.Windows;
 
