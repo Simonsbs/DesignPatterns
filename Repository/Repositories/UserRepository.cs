@@ -16,5 +16,4 @@ public class UserRepository : RepositoryBase<User>, IUserRepository {
 	public UserRepository(MainContext context) : base(context) {
 	}
 
-	// Implement any additional user-specific methods here.
 }

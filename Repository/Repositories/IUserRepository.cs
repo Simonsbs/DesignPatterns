@@ -8,6 +8,6 @@ namespace Repository.Repositories;
 /// Use this interface to implement user-specific data access policies and methods.
 /// </summary>
 public interface IUserRepository : IRepositoryBase<User> {
-	// Here, you can add any additional methods specific to the user repository,
+	// Here, we can add any additional methods specific to the user repository,
 	// such as FindByEmailAddress(string email) or ValidateUserCredentials(string username, string password).
 }
