@@ -1,5 +1,4 @@
 ﻿using Factory.Controls.Interfaces;
-using System; // Necessary for Console.WriteLine
 
 namespace Factory.Controls.Mac;
 
